@@ -6,7 +6,10 @@ const { URL } = require("url");
 
 // Create an HTTP server object
 const server = http.createServer((req, res) => {
-
+// Set CORS headers (for development)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   // Destructure the 'method' (GET, POST, PUT, DELETE) and 'url' from the incoming request
   const { method, url } = req;
   
@@ -15,6 +18,12 @@ const server = http.createServer((req, res) => {
   
   // Extract the path from the parsed URL
   const pathname = parsedUrl.pathname;
+ // Handle CORS preflight request
+if (req.method === "OPTIONS") {
+  res.writeHead(204); // No Content
+  res.end();
+  return;
+}
 
   // Handle POST requests to the '/todos' path
   if (method === "POST" && pathname === "/todos") {
