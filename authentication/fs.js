@@ -66,7 +66,7 @@ function authenticateUser(userData) {
       res.status = true
      }else{
 
-      res.msg = "Invaid User";
+      res.msg = "Invalid User";
       res.status = false;
      }
       

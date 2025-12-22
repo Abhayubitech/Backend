@@ -4,12 +4,25 @@ const { addUser, authenticateUser } = require("./fs");
 const { URL } = require("url");
 
 const server = http.createServer((req, res) => {
+//   console.log("test");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // Handle CORS preflight request
+  if (req.method === "OPTIONS") {
+    res.writeHead(204); // No Content
+    res.end();
+    return;
+  }
   const { method, url } = req;
   const parsedUrl = new URL(url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
   if (method === "POST" && pathname === "/singin") {
-   let body = "";
+    let body = "";
     req.on("data", (chunk) => {
       body += chunk;
     });
@@ -18,12 +31,13 @@ const server = http.createServer((req, res) => {
       try {
         const response = authenticateUser(data);
         res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(response));
+        res.end(JSON.stringify(response));
       } catch {
         res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({msg:"internal server error",status:false}))
+        res.end(
+          JSON.stringify({ msg: "internal server error", status: false })
+        );
       }
-
     });
   } else if (method === "POST" && pathname === "/singup") {
     let body = "";
@@ -35,14 +49,18 @@ const server = http.createServer((req, res) => {
       try {
         const response = addUser(data);
         res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(response));
-      } catch(err) {
-        console.log(err)
+        res.end(JSON.stringify(response));
+      } catch (err) {
+        console.log(err);
         res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({msg:"internal server error",status:false}))
+        res.end(
+          JSON.stringify({ msg: "internal server error", status: false })
+        );
       }
-
     });
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end();
   }
 });
 
