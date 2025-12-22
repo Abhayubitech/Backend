@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  if (method === "POST" && pathname === "/singin") {
+  if (method === "POST" && pathname === "/signin") {
     let body = "";
     req.on("data", (chunk) => {
       body += chunk;
@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
         );
       }
     });
-  } else if (method === "POST" && pathname === "/singup") {
+  } else if (method === "POST" && pathname === "/signup") {
     let body = "";
     req.on("data", (chunk) => {
       body += chunk;
