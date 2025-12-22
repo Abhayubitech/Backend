@@ -1,8 +1,15 @@
 function signIn(){
-    const singInForm = document.getElementById('signup-form')
+   const singInForm = document.getElementById('signup-form')
     const formData = new FormData(singInForm)
     const data = Object.fromEntries(formData)
-    console.log(data)
+    fetch('http://localhost:3000/singin',{
+        method:"POST",
+       headers: { 'Content-Type': 'application/json' },
+        body:JSON.stringify(data)
+    }).then((res)=>res.json()).then((res)=>{
+        alert(res.msg)
+        console.log(res)
+    })
 }
 function signUp(){
     const singInForm = document.getElementById('signup-form')
@@ -15,7 +22,10 @@ function signUp(){
     }).then((res)=>res.json()).then((res)=>{
         alert(res.msg)
         console.log(res)
-       
+        if(res.status){
+            console.log('test')
+            location.href = '/authentication/sign-in.html'
+        }
 
     })
 }
