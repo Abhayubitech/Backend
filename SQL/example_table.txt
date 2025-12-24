@@ -48,3 +48,12 @@ SELECT S.student_name,T.teacher_name FROM teacher T INNER JOIN student S ON T.te
 
 ALternate Method(By cross product)-
 SELECT * from teacher T,student S WHERE T.teacher_id = S.teacher_id;
+
+Right Join -
+SELECT *
+FROM student S
+RIGHT JOIN teacher T
+ON T.teacher_id = S.teacher_id
+
+Left Join - 
+SELECT * FROM teacher T LEFT JOIN student S ON T.teacher_id = S.teacher_id;
