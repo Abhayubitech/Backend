@@ -42,3 +42,9 @@ INSERT INTO Student VALUES
 (8, 'Meera', '9-A', 14, 3),
 (9, 'Aditya', '8-A', 13, 9),
 (10, 'Nisha', '10-B', 15, 2);
+
+Inner join -
+SELECT S.student_name,T.teacher_name FROM teacher T INNER JOIN student S ON T.teacher_id = S.teacher_id;
+
+ALternate Method(By cross product)-
+SELECT * from teacher T,student S WHERE T.teacher_id = S.teacher_id;
