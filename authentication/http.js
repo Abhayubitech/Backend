@@ -1,9 +1,9 @@
 // Import the HTTP module
 const http = require("http");
-const { addUser, authenticateUser } = require("./fs");
+const { addUser, authenticateUser } = require("./service");
 const { URL } = require("url");
 
-const server = http.createServer((req, res) => {
+const server = http.createServer( (req, res) => {
 //   console.log("test");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -44,10 +44,10 @@ const server = http.createServer((req, res) => {
     req.on("data", (chunk) => {
       body += chunk;
     });
-    req.on("end", () => {
+    req.on("end",async () => {
       const data = JSON.parse(body);
       try {
-        const response = addUser(data);
+        const response = await addUser(data);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(response));
       } catch (err) {
