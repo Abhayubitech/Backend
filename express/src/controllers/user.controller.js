@@ -1,6 +1,6 @@
 const userService = require("../services/user.service");
 
-exports.getUsers = async (req, res) => {
+async function  getUsers (req, res) {
   try {
     const users = await userService.getAllUsers();
     res.json(users);
@@ -9,7 +9,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res) => {
+ async function createUser(req, res){
   try {
     const user = await userService.createUser(req.body);
     res.status(201).json(user);
@@ -17,3 +17,5 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+module.exports = {getUsers,createUser}
