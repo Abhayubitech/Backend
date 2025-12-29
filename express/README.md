@@ -15,6 +15,9 @@ This project demonstrates a clean folder structure with routes, controllers, ser
 - nodemon (development)
 
 ---
+npm init -y
+npm install express mysql2 dotenv
+npm install nodemon --save-dev
 
 ## 📁 Project Structure
 
