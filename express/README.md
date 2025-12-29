@@ -55,14 +55,14 @@ PORT=3000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
-DB_NAME=demo_db
+DB_NAME=demo
 
 🗄️ Database Setup
-CREATE DATABASE demo_db;
+CREATE DATABASE demo;
 
-USE demo_db;
+USE demo;
 
-CREATE TABLE users (
+CREATE TABLE user (
   id INT AUTO_INCREMENT PRIMARY KEY,
   password VARCHAR(100),
   email VARCHAR(100)
