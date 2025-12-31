@@ -74,3 +74,6 @@ let asser2 = asser as string
 //literal types
 
 let lit:'cat'|'dog' = 'dog';
+
+
+
