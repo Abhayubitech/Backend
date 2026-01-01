@@ -81,3 +81,5 @@ QUESTIONS
 19. Retrieve the product_name and unit_price from the Products table, filtering the unit_price to show only values between $20 and $600.
 
 20. Retrieve the product_name and category from the Products table, ordering the results by category in ascending order.
+
+https://www.geeksforgeeks.org/sql/sql-exercises/
