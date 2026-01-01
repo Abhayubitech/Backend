@@ -33,3 +33,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //     phone: 0,
 // }
 // console.log(obj1.add?.city)
+let lookUp = {
+    a: 1,
+    d: 2,
+    e: 4,
+    f: 5,
+};
+function countPoints(str) {
+    let count = 0;
+    str = str.toLowerCase();
+    str.split('').forEach((char) => {
+        count += lookUp[char] ?? 0;
+    });
+    return count;
+}
+console.log(countPoints('ABHAYASDFKJD'));

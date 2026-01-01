@@ -9,8 +9,6 @@
 
 // console.log(arr2)
 
-
-
 // type Person = {
 //     name:string
 // }
@@ -24,8 +22,6 @@
 //      address:'gwl'
 // }
 
-
-
 // optional keys in object
 
 // interface Person{
@@ -38,12 +34,29 @@
 // homePhone?:number
 // }
 
-
 // let obj1 :Person={
 //     name: "",
-   
-   
+
 //     phone: 0,
 // }
 
 // console.log(obj1.add?.city)
+
+// let lookUp: {
+//   [key: string]: number;
+// } = {
+//   a: 1,
+//   d: 2,
+//   e: 4,
+//   f: 5,
+// };
+// function countPoints(str:string):number{
+//      let count = 0;
+//      str = str.toLowerCase();
+//      str.split('').forEach((char)=>{
+//         count += lookUp[char]??0
+//      })
+
+//      return count 
+// }
+// console.log(countPoints('ABHAYASDFKJD'));
