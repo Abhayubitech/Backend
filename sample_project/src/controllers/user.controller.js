@@ -35,7 +35,19 @@ async function  authenticateUser (req, res) {
     res.status(500).json({ error: err.message });
   }
 }
+async function  getUser (req, res) {
+  try {
+    const userId = req.params.id;
+    const result = await userService.getUser(userId)
+    if(result.length){
+res.status(200).json({status:true ,msg:"user fetch successfully",data:result});
+    }else{
+      res.status(404).json({status:false ,msg:"user not found",});
+    }
+  } catch (error) {
+     res.status(500).json({ error: err.message });
+  }
+}
 
 
-
-module.exports = {createUser,authenticateUser}
+module.exports = {createUser,authenticateUser,getUser}

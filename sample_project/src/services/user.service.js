@@ -32,5 +32,12 @@ async function authUser(username,password){
   );
   return result
 }
+async function getUser(userId){
+  const [result] = await db.query(
+    "SELECT * FROM user U ,auth A where U.user_id = A.id AND A.id = ?",
+    [userId]
+  );
+  return result
+}
 
-module.exports ={createUser,checkUser,authUser}
+module.exports ={createUser,checkUser,authUser,getUser}
