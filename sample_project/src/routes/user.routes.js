@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
 
-// router.post("/auth", userController.getUsers);
+router.post("/auth", userController.authenticateUser);
 router.post("/createUser", userController.createUser);
 // router.get("/getUser/:id", userController.createUser);
 // router.get("/getAllUsers", userController.createUser);

@@ -9,19 +9,33 @@ async function  createUser (req, res) {
   }
   try {
     const existingUser = await userService.checkUser(username,email,phone)
-    console.log(existingUser)
     if(existingUser.length){
-     res.json({status:false ,msg:"User alredy exist",data:res});
+     res.json({status:false ,msg:"User alredy exist",data:existingUser});
+    }else{
+      const response = await userService.createUser(username,password,role,name,email,phone,address);
+     console.log(response)
+    res.json({status:true ,msg:"User added successfully",data:response});
     }
-    const res = await userService.createUser(username,password,role,name,email,phone,address);
-     console.log(res)
-    res.json({status:true ,msg:"User added successfully",data:res});
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+async function  authenticateUser (req, res) {
+  const {username,password} = req.body
+
+  try{
+   const result = await userService.authUser(username,password)
+   if(result.length){
+ res.json({status:true ,msg:"login successfully",data:result});
+   }else{
+      res.status(401).json({status:false ,msg:"Invalid credentials",});
+   }
+  }catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
 
 
 
-
-module.exports = {createUser}
+module.exports = {createUser,authenticateUser}

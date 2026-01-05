@@ -19,17 +19,18 @@ async function createUser  (username,password,role,name,email,phone,address) {
   };
 };
 async function checkUser(username,email,phone){
-  console.log(email)
-  // const [result] = await db.query(
-  //   "SELECT A.username,U.email,U.phone FROM auth as A INNER JOIN user U on A.id = U.user_id WHERE A.username = ? OR U.email = ? OR U.phone = ?",
-  //   [username, email,phone]
-  // );
   const [result] = await db.query(
-    "SELECT * from user",
+    "SELECT A.username,U.email,U.phone FROM auth as A INNER JOIN user U on A.id = U.user_id WHERE A.username = ? OR U.email = ? OR U.phone = ?",
     [username, email,phone]
   );
-  console.log(result)
+  return result
+}
+async function authUser(username,password){
+  const [result] = await db.query(
+    "SELECT * FROM auth where username = ? AND password = ?",
+    [username,password]
+  );
   return result
 }
 
-module.exports ={createUser,checkUser}
+module.exports ={createUser,checkUser,authUser}
