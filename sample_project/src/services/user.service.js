@@ -107,8 +107,7 @@ async function getAllUserCourse(userId) {
 }
 async function getAllUser() {
   const [result] = await db.query(
-    "SELECT * FROM user U ,auth A where U.user_id = A.id",
-    [userId]
+    "SELECT * FROM user U ,auth A where U.user_id = A.id"
   );
   return result;
 }

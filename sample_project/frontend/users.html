@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Sample Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--bg-color);
+        }
+        /* Mobile responsive sidebar override could go here */
+        
+        .sidebar-brand { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 3rem; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .menu-item a { display: flex; align-items: center; padding: 0.75rem 1rem; color: var(--text-muted); border-radius: var(--radius); font-weight: 500; }
+        .menu-item a:hover, .menu-item a.active { background-color: rgba(99, 102, 241, 0.05); color: var(--primary-color); }
+        .user-profile { margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal {
+            background: white; padding: 2rem; border-radius: var(--radius);
+            width: 100%; max-width: 500px;
+            transform: translateY(20px); transition: transform 0.3s;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.open .modal { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">Sample App</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="menu-item"><a href="users.html" class="active">Users</a></li>
+                <li class="menu-item"><a href="courses.html">Courses</a></li>
+            </ul>
+            <div class="user-profile">
+                <p id="user-name" style="font-weight: 600;">Loading...</p>
+                <a href="#" id="logout-btn" style="font-size: 0.875rem; color: var(--error);">Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 class="animate-fade-in" style="margin-bottom: 0.5rem;">Users</h2>
+                    <p class="animate-fade-in" style="color: var(--text-muted);">Manage system users.</p>
+                </div>
+                <button id="add-user-btn" class="btn btn-primary animate-fade-in">+ Add User</button>
+            </header>
+
+            <div class="animate-fade-in">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Modal -->
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Add User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <input type="hidden" id="old-username">
+                <input type="hidden" id="old-email">
+                <input type="hidden" id="old-phone">
+
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" id="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="username" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" id="phone" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" id="address" class="form-input" required>
+                </div>
+                 <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <select id="role" class="form-input">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group" id="password-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input">
+                    <small style="color: var(--text-muted); display: none;" id="password-hint">Leave blank to keep unchanged</small>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Save User</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/user.js"></script>
+    <script>
+        // Shared Layout Logic (Logout/Name) - could be moved to a shared file, but keeping inline for simplicity
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) { window.location.href = 'index.html'; return; }
+            document.getElementById('user-name').textContent = user.name || user.username;
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault(); localStorage.removeItem('user'); window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

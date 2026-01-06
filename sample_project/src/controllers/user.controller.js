@@ -173,10 +173,24 @@ async function updateUser(req, res) {
   }
 }
 
+async function getAllUser(req, res) {
+  try {
+    const result = await userService.getAllUser();
+    if (result.length) {
+      res.status(200).json({ status: true, msg: "users fetch successfully", data: result });
+    } else {
+      res.status(404).json({ status: false, msg: "users not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createUser,
   authenticateUser,
   getUser,
   deleteUser,
   updateUser,
+  getAllUser
 };
