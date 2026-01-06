@@ -98,7 +98,20 @@ async function updateUser(
   const totalAffRows = result1.affectedRows + result2.affectedRows;
   return { totalAffRows };
 }
-
+async function getAllUserCourse(userId) {
+  const [result] = await db.query(
+    "SELECT * FROM course WHERE user_id = ?"
+    [userId]
+  );
+  return result;
+}
+async function getAllUser() {
+  const [result] = await db.query(
+    "SELECT * FROM user U ,auth A where U.user_id = A.id",
+    [userId]
+  );
+  return result;
+}
 module.exports = {
   createUser,
   checkUser,
@@ -109,4 +122,6 @@ module.exports = {
   checkEmail,
   checkPhone,
   checkUsername,
+  getAllUserCourse,
+  getAllUser
 };
